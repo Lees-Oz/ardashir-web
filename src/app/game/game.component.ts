@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { BoardPoint } from '../boardpoint';
+import { BoardPoint } from '../domain/boardpoint';
+import { BackgammonGame } from '../domain/backgammon-game';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'game',
@@ -8,16 +10,28 @@ import { BoardPoint } from '../boardpoint';
 })
 export class GameComponent implements OnInit {
 
-  point: BoardPoint = {
-    index: 0,
-    checkersCount: 3,
-    playerColor: 'WHITE'  
-  }
+  game: BackgammonGame;
 
-  constructor() { }
+  constructor(
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.point.checkersCount = 2;
+    this.getGame();
   }
 
+  getGame(): void {
+    this.game = { 
+      id: this.route.snapshot.paramMap.get('id'),
+      points: [
+        { index: 0, checkersCount: 15, playerColor: 'WHITE'},
+        { index: 1, checkersCount: 0, playerColor: 'WHITE'},
+        { index: 2, checkersCount: 0, playerColor: 'WHITE'},
+        { index: 3, checkersCount: 0, playerColor: 'WHITE'},
+        { index: 4, checkersCount: 0, playerColor: 'WHITE'},
+        { index: 5, checkersCount: 0, playerColor: 'WHITE'},
+        { index: 6, checkersCount: 0, playerColor: 'WHITE'},
+        { index: 7, checkersCount: 0, playerColor: 'WHITE'}
+      ]
+    }
+  }
 }

@@ -1,3 +1,11 @@
 <p>
-  {{point.playerColor}}
+  {{game.id}}
 </p>
+
+<ul>
+  <li *ngFor="let point of game.points">
+    
+      <span>{{point.index}}:{{point.checkersCount}}:{{point.playerColor}}</span>
+    
+  </li>
+</ul>
