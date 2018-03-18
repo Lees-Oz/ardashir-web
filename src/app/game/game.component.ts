@@ -2,36 +2,30 @@ import { Component, OnInit } from '@angular/core';
 import { BoardPoint } from '../domain/boardpoint';
 import { BackgammonGame } from '../domain/backgammon-game';
 import { ActivatedRoute } from '@angular/router';
+import { GameService } from '../services/game.service';
+import { PlayerService } from '../services/player.service';
 
 @Component({
   selector: 'game',
   templateUrl: './game.component.html',
-  styleUrls: ['./game.component.css']
+  styleUrls: ['./game.component.css'],
+  providers: [GameService, PlayerService]
 })
 export class GameComponent implements OnInit {
 
   game: BackgammonGame;
 
   constructor(
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private gameService: GameService,
+    private playerService: PlayerService) { }
 
   ngOnInit() {
     this.getGame();
   }
 
   getGame(): void {
-    this.game = { 
-      id: this.route.snapshot.paramMap.get('id'),
-      points: [
-        { index: 0, checkersCount: 15, playerColor: 'WHITE'},
-        { index: 1, checkersCount: 0, playerColor: 'WHITE'},
-        { index: 2, checkersCount: 0, playerColor: 'WHITE'},
-        { index: 3, checkersCount: 0, playerColor: 'WHITE'},
-        { index: 4, checkersCount: 0, playerColor: 'WHITE'},
-        { index: 5, checkersCount: 0, playerColor: 'WHITE'},
-        { index: 6, checkersCount: 0, playerColor: 'WHITE'},
-        { index: 7, checkersCount: 0, playerColor: 'WHITE'}
-      ]
-    }
+    var gameId = this.route.snapshot.paramMap.get('id')
+    this.game = this.gameService.getGame(gameId);
   }
 }

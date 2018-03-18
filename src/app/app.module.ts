@@ -6,6 +6,10 @@ import { AppComponent } from './app.component';
 import { LandingComponent } from './landing/landing.component';
 import { GameComponent } from './game/game.component';
 import { AppRoutingModule } from './/app-routing.module';
+import { UuidService } from './services/uuid.service';
+import { HttpClientModule } from '@angular/common/http';
+import { GameService } from './services/game.service';
+import { PlayerService } from './services/player.service';
 
 
 @NgModule({
@@ -16,9 +20,10 @@ import { AppRoutingModule } from './/app-routing.module';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [PlayerService, UuidService, GameService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

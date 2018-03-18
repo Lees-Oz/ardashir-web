@@ -1,0 +1,14 @@
+{
+  "/command/*": {
+    "target": "http://localhost:4567",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  },
+  "/query/*": {
+    "target": "http://localhost:4567",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  }
+}
