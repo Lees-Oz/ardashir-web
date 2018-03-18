@@ -12,36 +12,8 @@ export class GameService {
   
   constructor(private http: HttpClient, private playerService: PlayerService) {}
 
-  getGame(id: string): BackgammonGame {
-    return { 
-      id: id,
-      points: [
-        { index: 0, checkersCount: 15, playerColor: 'WHITE'},
-        { index: 1, checkersCount: 0, playerColor: 'Black'},
-        { index: 2, checkersCount: 0, playerColor: 'WHITE'},
-        { index: 3, checkersCount: 0, playerColor: 'WHITE'},
-        { index: 4, checkersCount: 0, playerColor: 'WHITE'},
-        { index: 5, checkersCount: 0, playerColor: 'WHITE'},
-        { index: 6, checkersCount: 0, playerColor: 'WHITE'},
-        { index: 7, checkersCount: 0, playerColor: 'WHITE'},
-        { index: 8, checkersCount: 0, playerColor: 'WHITE'},
-        { index: 9, checkersCount: 0, playerColor: 'WHITE'},
-        { index: 10, checkersCount: 0, playerColor: 'WHITE'},
-        { index: 11, checkersCount: 0, playerColor: 'WHITE'},
-        { index: 12, checkersCount: 0, playerColor: 'WHITE'},
-        { index: 13, checkersCount: 0, playerColor: 'WHITE'},
-        { index: 14, checkersCount: 0, playerColor: 'WHITE'},
-        { index: 15, checkersCount: 0, playerColor: 'WHITE'},
-        { index: 16, checkersCount: 0, playerColor: 'WHITE'},
-        { index: 17, checkersCount: 0, playerColor: 'WHITE'},
-        { index: 18, checkersCount: 0, playerColor: 'WHITE'},
-        { index: 19, checkersCount: 0, playerColor: 'WHITE'},
-        { index: 20, checkersCount: 0, playerColor: 'WHITE'},
-        { index: 21, checkersCount: 0, playerColor: 'WHITE'},
-        { index: 22, checkersCount: 0, playerColor: 'WHITE'},
-        { index: 23, checkersCount: 0, playerColor: 'WHITE'}
-      ]
-    }
+  getGame(id: string): Observable<BackgammonGame> {
+    return this.http.put<BackgammonGame>('/query/GetGameById', {gameId: id});
   }
 
   requestNewGame(): Observable<any> {

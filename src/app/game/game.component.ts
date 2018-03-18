@@ -13,7 +13,7 @@ import { PlayerService } from '../services/player.service';
 })
 export class GameComponent implements OnInit {
 
-  game: BackgammonGame;
+  game: BackgammonGame = { id: 'Loading...', points: [] };
 
   constructor(
     private route: ActivatedRoute,
@@ -26,6 +26,8 @@ export class GameComponent implements OnInit {
 
   getGame(): void {
     var gameId = this.route.snapshot.paramMap.get('id')
-    this.game = this.gameService.getGame(gameId);
+    this.gameService.getGame(gameId).subscribe(game => {
+      this.game = game;
+    });
   }
 }
