@@ -4,6 +4,7 @@ import { BackgammonGame } from '../domain/backgammon-game';
 import { ActivatedRoute } from '@angular/router';
 import { GameService } from '../services/game.service';
 import { PlayerService } from '../services/player.service';
+import { Player } from '../domain/player';
 
 @Component({
   selector: 'game',
@@ -12,22 +13,30 @@ import { PlayerService } from '../services/player.service';
   providers: [GameService, PlayerService]
 })
 export class GameComponent implements OnInit {
-
-  game: BackgammonGame = { id: 'Loading...', points: [] };
-
   constructor(
     private route: ActivatedRoute,
     private gameService: GameService,
     private playerService: PlayerService) { }
 
+  gameId: string = this.route.snapshot.paramMap.get('id');
+  me: Player;
+  
+  game: BackgammonGame = { id: null, points: [] };
+
   ngOnInit() {
-    this.getGame();
+    this.me = this.playerService.getLocalPlayer();
+    this.loadGame();
   }
 
-  getGame(): void {
-    var gameId = this.route.snapshot.paramMap.get('id')
-    this.gameService.getGame(gameId).subscribe(game => {
+  loadGame(): void {
+    this.gameService.getGame(this.gameId).subscribe(game => {
       this.game = game;
+    });
+  }
+
+  join(): void {
+    this.gameService.joinGame(this.gameId).subscribe(() => {
+      this.loadGame();
     });
   }
 }

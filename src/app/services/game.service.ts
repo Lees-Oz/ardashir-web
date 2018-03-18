@@ -20,6 +20,13 @@ export class GameService {
     return this.http.post('/command/RequestNewGame', {playerId: this.playerService.getLocalPlayer().id});
   }
 
+  joinGame(gameId: string): Observable<any> {
+    return this.http.post('/command/JoinGame', {
+      gameId: gameId,
+      playerId: this.playerService.getLocalPlayer().id
+    })
+  }
+
   getMyGame(): Observable<MyGame> {
     return this.http.put<MyGame>('/query/GetMyGame', {playerId: this.playerService.getLocalPlayer().id});
   }

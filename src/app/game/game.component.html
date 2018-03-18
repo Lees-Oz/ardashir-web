@@ -1,11 +1,27 @@
-<p>
-  {{game.id}}
-</p>
 
-<ul *ngIf="game && game.points">
-  <li *ngFor="let point of game.points">
-    
-      <span>{{point.index}}:{{point.checkersCount}}:{{point.playerColor}}</span>
-    
-  </li>
-</ul>
+<div *ngIf="!game;else game_content">
+  <span>This game doesn't exist</span>
+</div>
+
+<ng-template #game_content>
+  <div *ngIf="game && !game.id">
+    <span>Loading...</span>
+  </div>
+
+  <div *ngIf="game.id && !game.blackPlayerId && game.whitePlayerId === me.id">
+    <span>Share this with your friend: {{game.id}}</span>
+  </div>
+
+  <div *ngIf="game.id && !game.blackPlayerId && game.whitePlayerId != me.id">
+    <a (click)="join();">Join game {{game.id}}</a>
+  </div>
+
+  <div *ngIf="game.id && game.whitePlayerId && game.blackPlayerId">
+    <span>The game has started!</span>
+    <ul *ngIf="game && game.points">
+      <li *ngFor="let point of game.points">
+        <span>{{point.index}}:{{point.checkersCount}}:{{point.playerColor}}</span>
+      </li>
+    </ul>
+  </div>
+</ng-template>
