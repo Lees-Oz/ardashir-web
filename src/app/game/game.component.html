@@ -5,19 +5,21 @@
 
 <ng-template #game_content>
   <div *ngIf="game && !game.id">
-    <span>Loading...</span>
+    <h2>Loading...</h2>
   </div>
 
-  <div *ngIf="game.id && !game.blackPlayerId && game.whitePlayerId === me.id">
-    <span>Share this with your friend: {{game.id}}</span>
+  <div *ngIf="game.id && !game.blackPlayerId && game.whitePlayerId === currentPlayer.id">
+    <h2>Share link with your friend.</h2>
+    <h2>Waiting him to connect...</h2>
   </div>
 
-  <div *ngIf="game.id && !game.blackPlayerId && game.whitePlayerId != me.id">
-    <a (click)="join();">Join game {{game.id}}</a>
+  <div *ngIf="game.id && !game.blackPlayerId && game.whitePlayerId != currentPlayer.id">
+    <button (click)="join();">Join game {{game.id}}</button>
   </div>
 
   <div *ngIf="game.id && game.whitePlayerId && game.blackPlayerId">
-    <span>The game has started!</span>
+    <span>The game with {{oppositePlayer.id}} started!</span>
+
     <ul *ngIf="game && game.points">
       <li *ngFor="let point of game.points">
         <span>{{point.index}}:{{point.checkersCount}}:{{point.playerColor}}</span>

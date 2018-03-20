@@ -10,6 +10,7 @@ import { UuidService } from './services/uuid.service';
 import { HttpClientModule } from '@angular/common/http';
 import { GameService } from './services/game.service';
 import { PlayerService } from './services/player.service';
+import { SocketService } from './socket.service';
 
 
 @NgModule({
@@ -23,7 +24,7 @@ import { PlayerService } from './services/player.service';
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [PlayerService, UuidService, GameService],
+  providers: [PlayerService, UuidService, GameService, SocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
