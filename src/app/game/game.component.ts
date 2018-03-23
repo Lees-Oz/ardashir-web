@@ -5,7 +5,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GameService } from '../services/game.service';
 import { PlayerService } from '../services/player.service';
 import { Player } from '../domain/player';
-import { SocketService } from '../socket.service';
 import { Subject } from 'rxjs';
 import { GameMessage } from '../contracts/game-message';
 
@@ -19,8 +18,7 @@ export class GameComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private gameService: GameService,
-    private playerService: PlayerService,
-    private socketService: SocketService) { }
+    private playerService: PlayerService) { }
 
   game: BackgammonGame = { 
     id: null, 
@@ -35,38 +33,44 @@ export class GameComponent implements OnInit {
   
   gameSubject: Subject<GameMessage>;
 
+  ws: WebSocket;
+
   ngOnInit() {
-    this.gameSubject = <Subject<GameMessage>>this.socketService.connect()
-      .map((response: MessageEvent): GameMessage => {
-        let data = JSON.parse(response.data);
-				return {
-					playerId: data.playerId,
-					gameId: data.gameId,
-					action: data.action
-				}
-      });
 
     this.currentPlayer = this.playerService.getLocalPlayer();
     this.loadGame();
-
-    //this.gameSubject.
   }
 
   loadGame(): void {
     this.gameService.getGame(this.gameId).subscribe(game => {
       this.game = game;
-      this.oppositePlayer =  {id: this.game.whitePlayerId == this.currentPlayer.id ? this.game.blackPlayerId : this.game.whitePlayerId}
+      this.oppositePlayer =  {id: this.game.whitePlayerId == this.currentPlayer.id ? this.game.blackPlayerId : this.game.whitePlayerId};
+      this.connectWebSocket(game.id, this.currentPlayer.id);
     }, error => {
       this.game = null;
     });
   }
 
-  join(): void {
-    // this.gameSubject.next({playerId: this.playerService.getLocalPlayer().id, 
-    //   gameId: this.gameId,
-    // action: 'joined'});
+  connectWebSocket(gameId: string, playerId: String): void {
+    if(this.ws && this.ws.OPEN) {
+      return;
+    }
 
+    this.ws = new WebSocket('ws://localhost:4567/ws?gameId=' + gameId + '&playerId=' + playerId);
+    this.ws.onopen = function(e) {
+      console.log('open ' + JSON.stringify(e));
+    }.bind(this);
+
+    this.ws.onmessage = function(e) {
+      console.log('message ' + JSON.stringify(e.data));
+      this.loadGame();
+    }.bind(this);
+  }
+
+  join(): void {
     this.gameService.joinGame(this.gameId).subscribe(() => {
+      let joinedMessage: GameMessage = {gameId: this.gameId, playerId: this.currentPlayer.id, action: 'joined'}
+      this.ws.send(JSON.stringify(joinedMessage));
       this.loadGame();
     });
   }
