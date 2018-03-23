@@ -11,13 +11,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { GameService } from './services/game.service';
 import { PlayerService } from './services/player.service';
 import { SocketService } from './socket.service';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LandingComponent,
-    GameComponent
+    GameComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
