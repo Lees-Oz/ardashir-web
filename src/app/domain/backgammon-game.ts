@@ -5,4 +5,5 @@ export class BackgammonGame {
     points: BoardPoint[];
     whitePlayerId: string;
     blackPlayerId: string;
+    status: string;
 }
