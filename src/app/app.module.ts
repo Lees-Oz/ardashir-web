@@ -10,12 +10,14 @@ import { GameService } from './services/game.service';
 import { PlayerService } from './services/player.service';
 import { SocketService } from './socket.service';
 import { GameComponent } from './game/game.component';
+import { BoardComponent } from './board/board.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    GameComponent
+    GameComponent,
+    BoardComponent
   ],
   imports: [
     BrowserModule,

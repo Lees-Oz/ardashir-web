@@ -1,0 +1,43 @@
+#right_block {
+    float: right; 
+    height: 100vmin; 
+    width: 100vmin; 
+    display: flex; 
+    flex-wrap: wrap; 
+    align-items: center;
+}
+#board {
+    height: 90vmin; 
+    width: 90vmin; 
+    margin: 0 auto; 
+    background: #F1E1D3
+}
+  
+/*  Board Styles */
+#board {
+    background-repeat: no-repeat; 
+    background-size: cover
+}
+
+#board.style_modern {
+    background-image: url(/assets/images/style_modern.jpg);
+}
+.checker {
+    background-repeat: no-repeat; 
+    background-size: cover; 
+    background-position: center; 
+    width: 6vmin; 
+    height: 6vmin; 
+    cursor: pointer
+}
+.checker:hover {
+    -webkit-filter: drop-shadow(1px 1px 3px rgba(0,0,0,0.35)); 
+    /* Safari */ 
+    filter: drop-shadow(1px 1px 3px rgba(0,0,0,0.35));
+}
+.checker.black {
+    background-image: url(/assets/images/black.png)
+}
+.checker.white {
+    background-image: url(/assets/images/white.png)
+}
