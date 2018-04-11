@@ -56,7 +56,7 @@ export class GameComponent implements OnInit {
         this.gameService.getGame(this.gameId).subscribe(game => {
           this.game = game;
           this.connectWebSocket(game.id, this.currentPlayer.id);
-          if (this.game.status === "waitingPartner") {
+          if (this.game.status === "waitingPartner" && this.game.whitePlayerId !== this.currentPlayer.id) {
             this.gameService.joinGame(this.gameId).subscribe(() => {
               console.log("Joined game");
             });
