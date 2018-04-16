@@ -18,5 +18,6 @@
       </ul>
     </header>	
   </div>
-  <app-board></app-board>
+  
+  <app-board *ngIf="game" [playerColor]="currentPlayerColor" [points]="game.boardPoints"></app-board>
 </div>

@@ -7,6 +7,8 @@ import { Player } from '../domain/player';
 import { Subject } from 'rxjs';
 import { GameMessage } from '../contracts/game-message';
 import { MyGame } from '../contracts/my-game';
+import { PlayerColor } from '../domain/player-color.enum';
+import { BoardPoint } from '../domain/boardpoint';
 
 @Component({
   selector: 'app-game',
@@ -20,9 +22,10 @@ export class GameComponent implements OnInit {
     private playerService: PlayerService,
     private router: Router) { }
 
+    public game: BackgammonGame = new BackgammonGame ();
+    public currentPlayerColor: PlayerColor;
+
     gameId: string;
-    game: BackgammonGame = null;
-  
     currentPlayer: Player;
     oppositePlayer: Player;
   
@@ -31,8 +34,7 @@ export class GameComponent implements OnInit {
     ngOnInit() {
       this.currentPlayer = this.playerService.getLocalPlayer();
       this.gameId = this.route.snapshot.paramMap.get('id');
-
-      
+      this.game.points = [];
 
       if(!this.gameId) {
         
@@ -56,12 +58,24 @@ export class GameComponent implements OnInit {
         this.gameService.getGame(this.gameId).subscribe(game => {
           this.game = game;
           this.connectWebSocket(game.id, this.currentPlayer.id);
-          if (this.game.status === "waitingPartner" && this.game.whitePlayerId !== this.currentPlayer.id) {
-            this.gameService.joinGame(this.gameId).subscribe(() => {
-              console.log("Joined game");
-            });
+          if (this.game.status === "waitingPartner") {
+            if(this.game.whitePlayerId !== this.currentPlayer.id) {
+              this.gameService.joinGame(this.gameId).subscribe(() => {
+                this.currentPlayerColor = PlayerColor.Black;
+                console.log("Joined game");
+                this.loadGame();
+              });
+            } else {
+              this.currentPlayerColor = PlayerColor.White;
+            }
           } else if (this.game.status === "started") {
-            this.oppositePlayer = {id: this.game.whitePlayerId == this.currentPlayer.id ? this.game.blackPlayerId : this.game.whitePlayerId};
+            if(this.game.whitePlayerId == this.currentPlayer.id) {
+              this.currentPlayerColor = PlayerColor.White;
+              this.oppositePlayer = {id: this.game.blackPlayerId};
+            } else {
+              this.currentPlayerColor = PlayerColor.Black;
+              this.oppositePlayer = {id: this.game.whitePlayerId};
+            }
           }
         }, error => {
           console.error(error);
@@ -71,7 +85,11 @@ export class GameComponent implements OnInit {
     }
   
     loadGame(): void {
-      
+      this.gameService.getGame(this.gameId).subscribe(game => {
+        this.game = game;
+      }, error => {
+        console.error(error);
+      });
     }
 
     getMyGame(callback: (value: MyGame) => void): void {

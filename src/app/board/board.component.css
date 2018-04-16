@@ -10,34 +10,61 @@
     height: 90vmin; 
     width: 90vmin; 
     margin: 0 auto; 
-    background: #F1E1D3
-}
-  
-/*  Board Styles */
-#board {
+    background: #F1E1D3;
     background-repeat: no-repeat; 
-    background-size: cover
+    background-size: cover;
 }
 
 #board.style_modern {
     background-image: url(/assets/images/style_modern.jpg);
 }
+
+#bottom_row {
+    display: table;
+} 
+
+.row {
+    height: 50%;
+}
+
+.point {
+    float: left;
+    width: 6vmin;
+    margin-left: 0.75vmin;
+    margin-right: 0.75vmin;
+}
+
+.point.bottom {
+    position: relative;
+    height: 100%;
+}
+
 .checker {
     background-repeat: no-repeat; 
     background-size: cover; 
     background-position: center; 
     width: 6vmin; 
     height: 6vmin; 
-    cursor: pointer
+    cursor: pointer;
 }
+
+.checker.top {
+    margin-bottom: -3vmin;
+}
+
+.checker.bottom {
+    position: absolute;
+    left: 0vmin;
+}
+
 .checker:hover {
     -webkit-filter: drop-shadow(1px 1px 3px rgba(0,0,0,0.35)); 
     /* Safari */ 
     filter: drop-shadow(1px 1px 3px rgba(0,0,0,0.35));
 }
 .checker.black {
-    background-image: url(/assets/images/black.png)
+    background-image: url(/assets/images/black.png);
 }
 .checker.white {
-    background-image: url(/assets/images/white.png)
+    background-image: url(/assets/images/white.png);
 }

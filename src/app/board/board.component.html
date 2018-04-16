@@ -1,9 +1,21 @@
 <div id="right_block">
   <div id="board" class="style_modern">
-    <div class="checker black"></div>
-    <div class="checker black"></div>
-    <div class="checker black"></div>
-    <div class="checker white"></div>
-    <div class="checker white"></div>
+    <div id="top_row" class="row">
+      <div class="point" *ngFor="let point of topPoints; index as i">
+          <div *ngIf="!point.checkersCount" class="point">&nbsp;</div>
+          <div *ngFor="let i of getRange(point.checkersCount)" [ngClass]="{'checker top': true, 'white':point.playerColor === 'WHITE', 'black':point.playerColor === 'BLACK'}"></div>
+      </div>
+    </div>
+
+    <div id="bottom_row" class="row">
+      <div class="point bottom" *ngFor="let point of bottomPoints; index as i">
+        <div *ngIf="!point.checkersCount" class="point bottom">&nbsp;</div>
+        <div *ngFor="let i of getRange(point.checkersCount)" 
+          [ngClass]="{'checker bottom': true, 'white': point.playerColor === 'WHITE', 'black': point.playerColor === 'BLACK'}"
+          [ngStyle]="{'bottom': i * 3 + 'vmin'}"
+          >
+        </div>
+      </div>
+    </div>
   </div>
 </div>
